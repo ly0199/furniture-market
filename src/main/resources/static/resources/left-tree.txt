@@ -1,0 +1,8 @@
+[
+	{ id: "compact", text: "合同租金", iconCls: "icon-expand"},
+	{ id: "compactList", pid: "compact", text: "合同列表", iconCls: "icon-add", url: "/compact/page" },
+	{ id: "editUser", pid: "compact", text: "滞纳金列表", iconCls: "icon-edit", url: "/compact/expire/page" },
+
+	{ id: "user", text: "个人信息", iconCls: "icon-user"},
+	{ id: "userInfo", pid: "user", text:"查看信息", iconCls: "icon-find", url: "/admin/info"}
+]

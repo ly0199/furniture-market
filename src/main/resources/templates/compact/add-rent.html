@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="/include/common-head :: commonHeader('新增收租')"></head>
+<head>
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .asLabel .mini-textbox-border,
+        .asLabel .mini-textbox-input,
+        .asLabel .mini-buttonedit-border,
+        .asLabel .mini-buttonedit-input,
+        .asLabel .mini-textboxlist-border {
+            border: 0;
+            background: none;
+            cursor: default;
+        }
+
+        .asLabel .mini-buttonedit-button,
+        .asLabel .mini-textboxlist-close {
+            display: none;
+        }
+
+        .asLabel .mini-textboxlist-item {
+            padding-right: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="mini-fit">
+    <form id="compact-info-form" method="post">
+        <input name="compactId" class="mini-hidden"/>
+        <div style="padding-left:11px;padding-bottom:5px;">
+            <table style="table-layout:fixed;">
+                <tr>
+                    <td style="width:70px;">合同号：</td>
+                    <td style="width:150px;">
+                        <input id="no" name="no" class="mini-textbox" onvalidation="CA.onNoValidation" required="true"
+                               emptyText="合同号"/>
+                    </td>
+                    <td style="width:70px;">商家名称：</td>
+                    <td style="width:150px;">
+                        <input name="merchant" class="mini-textbox" required="true" emptyText="商家名称"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:70px;">租户名：</td>
+                    <td style="width:150px;">
+                        <input name="name" class="mini-textbox" required="true" emptyText="租户名"/>
+                    </td>
+                    <td style="width:70px;">承租周期：</td>
+                    <td style="width:150px;">
+                        <input name="countOfMonth" class="mini-spinner" maxValue="99999999" format="0个月"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>月租金合计：</td>
+                    <td>
+                        <input name="rentOfMonthTotal" class="mini-spinner" value="0" minValue="0" maxValue="99999999"
+                               required="true" format="#,0.00" onvaluechanged="CA.buildMoney"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+    <fieldset style="border:solid 1px #aaa;padding:3px;">
+        <form id="rent-add-form" method="post">
+            <input name="compactId" class="mini-hidden"/>
+            <div style="padding-left:11px;padding-bottom:5px;">
+                <table style="table-layout:fixed;">
+                    <tr>
+                        <td style="width:70px;">开始时间：</td>
+                        <td style="width:150px;">
+                            <input name="startDate" required="true" class="mini-datepicker" allowInput="false"
+                                   showTodayButton="false"/>
+                        </td>
+                        <td style="width:70px;">结束时间：</td>
+                        <td style="width:150px;">
+                            <input name="endDate" required="true" class="mini-datepicker" allowInput="false"
+                                   showTodayButton="false"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>缴租金：</td>
+                        <td>
+                            <input name="rent" class="mini-spinner" value="0" minValue="0" maxValue="99999999"
+                                   required="true" format="#,0.00"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="text-align:center;padding:10px;" region="center">
+                <a class="mini-button" onclick="RA.save()" style="width:60px;margin-right:20px;">确定</a>
+                <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
+            </div>
+        </form>
+    </fieldset>
+</div>
+<script type="text/javascript">
+
+    var RA = RA || {};
+
+    mini.parse();
+    // init 初始化赋值开始时间
+    mini.getbyName("startDate").setValue(new Date());
+
+    RA = {
+        // 保存
+        save: function () {
+
+            var form = new mini.Form("rent-add-form");
+            var data = form.getData();
+            console.log(data);
+
+            form.validate();
+            if (form.isValid() == false) return;
+
+            mini.confirm("请检查数据是否完整，提交后不允许修改！", "确定？",
+                function (action) {
+                    if (action == "ok") {
+                        var json = mini.encode(data);
+                        console.log(json);
+                        $.ajax({
+                            url: "/rent/save",
+                            type: 'post',
+                            data: {vo: json},
+                            cache: false,
+                            success: function (text) {
+                                CloseWindow("save");
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert(jqXHR.responseText);
+                                CloseWindow();
+                            }
+                        });
+                    }
+                }
+            );
+        },
+
+        setData: function (data, compact) {
+            if (data.action == "new") {
+                //跨页面传递的数据对象，克隆后才可以安全使用
+                data = mini.clone(data);
+                compact = mini.clone(compact);
+
+                var form = new mini.Form("compact-info-form");
+                var o = mini.decode(compact);
+                form.setData(o);
+                RA.labelModel(form);
+
+                var rentInfo = mini.decode(data);
+                var rentForm = new mini.Form("rent-add-form");
+                rentForm.setData(rentInfo);
+            }
+        },
+
+        labelModel: function (form) {
+            var fields = form.getFields();
+            for (var i = 0, l = fields.length; i < l; i++) {
+                var c = fields[i];
+                if (c.setReadOnly) c.setReadOnly(true);     //只读
+                if (c.setIsValid) c.setIsValid(true);      //去除错误提示
+                if (c.addCls) c.addCls("asLabel");          //增加asLabel外观
+            }
+        }
+    }
+    ;
+
+
+    function CloseWindow(action) {
+        if (action == "close" && form.isChanged()) {
+            if (confirm("数据被修改了，是否先保存？")) {
+                return false;
+            }
+        }
+        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+
+
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+</script>
+</body>
+</html>

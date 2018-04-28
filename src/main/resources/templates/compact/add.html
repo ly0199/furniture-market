@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="/include/common-head :: commonHeader('新增合同')"></head>
+<head>
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<form id="compact-add-form" method="post">
+    <input name="id" class="mini-hidden"/>
+    <div style="padding-left:11px;padding-bottom:5px;">
+        <table style="table-layout:fixed;">
+            <tr>
+                <td style="width:70px;">合同号：</td>
+                <td style="width:150px;">
+                    <input id="no" name="no" class="mini-textbox" onvalidation="CA.onNoValidation" required="true"
+                           emptyText="合同号"/>
+                </td>
+                <td style="width:70px;">商家名称：</td>
+                <td style="width:150px;">
+                    <input name="merchant" class="mini-textbox" required="true" emptyText="商家名称"/>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:70px;">租户名：</td>
+                <td style="width:150px;">
+                    <input name="name" class="mini-textbox" required="true" emptyText="租户名"/>
+                </td>
+                <td style="width:70px;">承租周期：</td>
+                <td style="width:150px;">
+                    <input name="countOfMonth" class="mini-spinner" required="true" value="1" minValue="1"
+                           maxValue="99999999" format="0个月" onvaluechanged="CA.onCountOfMonthChanged"/>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:70px;">开始时间：</td>
+                <td style="width:150px;">
+                    <input name="startDate" required="true" class="mini-datepicker" allowInput="false"
+                           showTodayButton="false"/>
+                </td>
+                <td style="width:70px;">结束时间：</td>
+                <td style="width:150px;">
+                    <input name="endDate" required="true" class="mini-datepicker" allowInput="false"
+                           showTodayButton="false"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <fieldset style="border:solid 1px #aaa;padding:3px;">
+        <legend>租赁信息</legend>
+        <div style="padding:5px;">
+            <table>
+                <tr>
+                    <td>摊位号：</td>
+                    <td style="width:150px;">
+                        <input name="booth" class="mini-textbox" required="true" emptyText="摊位号"/>
+                    </td>
+                    <td>面积(平米)：</td>
+                    <td style="width:150px;">
+                        <input name="area" class="mini-spinner" required="true" value="0" minValue="0"
+                               maxValue="99999999" format="#,0.00" onvaluechanged="CA.onAreaChanged()"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>收租类型：</td>
+                    <td style="width:150px;">
+                        <input name="getway" class="mini-combobox" valueField="id" textField="name"
+                               data="[{id:1,name:'月付'},{id:6,name:'半年付'},{id:12,name:'年付'},{id:18,name:'18月付'}]"
+                               onvaluechanged="CA.onGetwayChanged" required="true" value="1"/>
+                    </td>
+                    <td>折扣：</td>
+                    <td style="width:150px;">
+                        <input name="discount" class="mini-spinner" required="true" value="100" minValue="0"
+                               maxValue="100" enabled="false"/>
+                </tr>
+                <tr>
+                    <td>租金(㎡/月)：</td>
+                    <td>
+                        <input name="rentOfArea" class="mini-spinner" value="10" minValue="1" maxValue="2000"
+                               required="true" format="#,0.00" onvaluechanged="CA.buildMoney"/>
+                    </td>
+                    <td>月租金合计：</td>
+                    <td>
+                        <input name="rentOfAreaMonth" class="mini-spinner" value="0.00" minValue="0.00"
+                               maxValue="99999999" enabled="false" format="#,0.00"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>管理费(㎡/月)：</td>
+                    <td>
+                        <input name="rentOfManage" class="mini-spinner" value="20" minValue="0" maxValue="2000"
+                               required="true" format="#,0.00" onvaluechanged="CA.buildMoney"/>
+                    </td>
+                    <td>月管理合计：</td>
+                    <td>
+                        <input name="rentOfManageMonth" class="mini-spinner" value="0" minValue="0.00"
+                               maxValue="99999999" enabled="false" format="#,0.00"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>杂费(空/质/垃 ㎡/月)：</td>
+                    <td>
+                        <input name="rentOfCharges" class="mini-spinner" value="5.8" minValue="0" maxValue="2000"
+                               required="true" format="#,0.00" onvaluechanged="CA.buildMoney"/>
+                    </td>
+                    <td>月杂费合计：</td>
+                    <td>
+                        <input name="rentOfChargesMonth" class="mini-spinner" value="0.00" minValue="0.00"
+                               maxValue="99999999" enabled="false" format="#,0.00"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>单月合计：</td>
+                    <td>
+                        <input name="rentOfMonthTotal" class="mini-spinner" value="0" minValue="0" maxValue="99999999"
+                               required="true" format="#,0.00"/>
+                    </td>
+                    <td>合同期合计：</td>
+                    <td>
+                        <input name="rentOfCompact" class="mini-spinner" value="0.00" minValue="0.00"
+                               maxValue="99999999" enabled="false" format="#,0.00"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>优惠金额：</td>
+                    <td>
+                        <input name="rentOfDiscounts" class="mini-spinner" value="0" minValue="0" maxValue="99999999"
+                               required="true" format="#,0.00" onvaluechanged="CA.buildMoney"/>
+                    </td>
+                    <td>应收合计：</td>
+                    <td>
+                        <input name="rentOfReceivable" class="mini-spinner" value="0.00" minValue="0.00"
+                               maxValue="99999999" enabled="false" format="#,0.00"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>押金：</td>
+                    <td>
+                        <input name="rentOfPledge" class="mini-spinner" value="0" minValue="0" maxValue="99999999"
+                               required="true" format="#,0.00"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>押金备注：</td>
+                    <td colspan="3">
+                        <input name="remark" class="mini-textarea" style="width:378px;" emptyText="押金备注"/>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </fieldset>
+    <div style="text-align:center;padding:10px;">
+        <a class="mini-button" onclick="CA.save()" style="width:60px;margin-right:20px;">确定</a>
+        <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
+    </div>
+</form>
+<script type="text/javascript">
+
+    var CA = CA || {};
+
+    mini.parse();
+    // init 初始化赋值开始时间
+    mini.getbyName("startDate").setValue(new Date());
+
+    CA = {
+        // 保存
+        save: function () {
+
+            var form = new mini.Form("compact-add-form");
+            var data = form.getData();
+
+            form.validate();
+            if (form.isValid() == false) return;
+
+            mini.confirm("请检查数据是否完整，提交后不允许修改！", "确定？",
+                function (action) {
+                    if (action == "ok") {
+                        var json = mini.encode(data);
+                        $.ajax({
+                            url: "/compact/save",
+                            type: 'post',
+                            data: {vo: json},
+                            cache: false,
+                            success: function (text) {
+                                CloseWindow("save");
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert(jqXHR.responseText);
+                                CloseWindow();
+                            }
+                        });
+                    }
+                }
+            );
+        },
+
+        /**
+         * 验证合同号
+         */
+        onNoValidation: function (e) {
+            var no = e.value;
+            $.ajax({
+                url: "/compact/no?no=" + no,
+                cache: false,
+                success: function (data) {
+                    if (data.exists == true) {
+                        e.errorText = "合同号[" + no + "]已存在";
+                        e.isValid = false;
+                    }
+                }
+            });
+        },
+
+
+        /**
+         * 承租月份改变时
+         */
+        onCountOfMonthChanged: function (e) {
+            CA.buildMoney();
+        },
+
+        /**
+         * 面积改变时
+         */
+        onAreaChanged: function (e) {
+            CA.buildMoney();
+        },
+
+        /**
+         * 支付方式改变时
+         */
+        onGetwayChanged: function (e) {
+            var getway = e.value;
+            var discount = mini.getByName("discount");
+            if (getway == 1) {
+                discount.setValue("100");
+            } else if (getway == 6) {
+                discount.setValue("95");
+            } else if (getway == 12) {
+                discount.setValue("90");
+            } else if (getway == 18) {
+                discount.setValue("88");
+            }
+
+            CA.buildMoney();
+        },
+
+        /**
+         * 计算价钱
+         */
+        buildMoney: function () {
+
+            var countOfMonth = mini.getbyName("countOfMonth").getValue();
+            var discount = mini.getByName("discount").getValue();
+            var area = mini.getbyName("area").getValue();
+            var rentOfArea = mini.getbyName("rentOfArea").getValue();
+            var rentOfManage = mini.getbyName("rentOfManage").getValue();
+            var rentOfCharges = mini.getbyName("rentOfCharges").getValue();
+
+            // 月面积租金
+            var rentOfAreaMonth = rentOfArea * area * discount / 100;
+            mini.getbyName("rentOfAreaMonth").setValue(rentOfAreaMonth);
+
+            // 月管理费租金
+            var rentOfManageMonth = rentOfManage * area * discount / 100;
+            mini.getbyName("rentOfManageMonth").setValue(rentOfManageMonth);
+
+            // 月杂费租金
+            var rentOfChargesMonth = rentOfCharges * area;
+            mini.getbyName("rentOfChargesMonth").setValue(rentOfChargesMonth);
+
+            // 单月租金合计
+            var rentOfMonthTotal = rentOfAreaMonth + rentOfManageMonth + rentOfChargesMonth;
+            mini.getbyName("rentOfMonthTotal").setValue(rentOfMonthTotal);
+
+            // 合同期租金
+            var rentOfCompact = rentOfMonthTotal * countOfMonth;
+            mini.getbyName("rentOfCompact").setValue(rentOfCompact);
+
+            // 应收合计
+            var rentOfDiscounts = mini.getbyName("rentOfDiscounts").getValue();
+            var rentOfReceivable = rentOfCompact - rentOfDiscounts;
+            mini.getbyName("rentOfReceivable").setValue(rentOfReceivable);
+
+            // 押金
+            var getway = mini.getbyName("getway").getValue();
+            if (getway == 1) {
+                var rentOfPledge = rentOfMonthTotal * 3;
+                mini.getbyName("rentOfPledge").setValue(rentOfPledge);
+            } else {
+                mini.getbyName("rentOfPledge").setValue(0);
+            }
+
+
+        }
+
+    };
+
+
+    function CloseWindow(action) {
+        if (action == "close" && form.isChanged()) {
+            if (confirm("数据被修改了，是否先保存？")) {
+                return false;
+            }
+        }
+        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+
+
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+</script>
+</body>
+</html>

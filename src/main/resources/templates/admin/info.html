@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+
+    <head th:include="/include/common-head :: commonHeader('首页')"></head>
+    <style type="text/css">
+        fieldset {
+            border: solid 1px #aaa;
+        }
+
+        .hideFieldset {
+            border-left: 0;
+            border-right: 0;
+            border-bottom: 0;
+        }
+
+        .hideFieldset .fieldset-body {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<fieldset id="fd1" style="width:600px;">
+    <legend><span>用户信息</span></legend>
+    <div class="fieldset-body">
+        <form id="user-info-form">
+            <table class="form-table" border="0" cellpadding="1" cellspacing="2">
+                <tr>
+                    <td class="form-label" style="width:60px;">账户：</td>
+                    <td style="width:150px">
+                        <input name="username" class="mini-textbox"/>
+                    </td>
+                    <td class="form-label" style="width:60px;">姓名：</td>
+                    <td style="width:150px">
+                        <input name="name" class="mini-textbox" enabled="false"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="form-label" style="width:60px;">手机：</td>
+                    <td style="width:150px">
+                        <input name="phone" class="mini-textbox" enabled="false"/>
+                    </td>
+                    <td class="form-label" style="width:60px;">时间：</td>
+                    <td style="width:150px">
+                        <input name="createTime" class="mini-datepicker" style="width:200px;"
+                               format="yyyy-MM-dd HH:mm:ss" showTime="true" visible="true" enabled="false"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</fieldset>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            url: "/admin/0",
+            type: "post",
+            success: function (text) {
+                var form = new mini.Form("#user-info-form");
+                var data = mini.decode(text);   //反序列化成对象
+                form.setData(data);
+                form.setEnabled(false);
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+
+    <head th:include="/include/common-head :: commonHeader('首页')"></head>
+
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .logo {
+            font-family: "微软雅黑", "Helvetica Neue", ​Helvetica, ​Arial, ​sans-serif;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: default;
+            position: absolute;
+            top: 25px;
+            left: 14px;
+            line-height: 28px;
+            color: #444;
+        }
+
+        .topNav {
+            position: absolute;
+            right: 8px;
+            top: 12px;
+            font-size: 12px;
+            line-height: 25px;
+        }
+
+        .topNav a {
+            text-decoration: none;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 25px;
+            margin-left: 3px;
+            margin-right: 3px;
+            color: #333;
+        }
+
+        .topNav a:hover {
+            text-decoration: underline;
+        }
+
+        .mini-layout-region-south img {
+            vertical-align: top;
+        }
+    </style>
+
+</head>
+<body>
+
+<!--Layout-->
+<div class="mini-layout" style="width:100%;height:100%;">
+
+    <!-- 头部 -->
+    <div title="north" region="north" class="app-header" bodyStyle="overflow:hidden;" height="70" showHeader="false"
+         showSplit="false">
+        <div class="logo">-----</div>
+
+        <div class="topNav">
+            <a class="mini-button mini-button-iconTop" iconCls="icon-user" plain="true">
+                <shiro:principal property="name"/>
+            </a>
+            <a class="mini-button mini-button-iconTop" iconCls="icon-downgrade" plain="true" th:href="@{/logout}">
+                退出
+            </a>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <!--<div title="south" region="south" showSplit="false" showHeader="false" height="30">
+        <div style="line-height:28px;text-align:center;cursor:default">Copyright © ly_0199 个人版权</div>
+    </div>-->
+
+    <!-- 中部 -->
+    <div title="center" region="center" bodyStyle="overflow:hidden;" style="border:0;">
+        <!--Splitter-->
+        <div class="mini-splitter" style="width:100%;height:100%;" borderStyle="border:0;">
+            <div size="180" maxSize="250" minSize="100" showCollapseButton="true" style="border-width:1px;">
+
+                <!--Tree-->
+                <div id="leftTree" class="mini-outlooktree" url="/resources/left-tree.txt" onnodeclick="onNodeSelect"
+                     textField="text" idField="id" parentField="pid">
+                </div>
+
+
+            </div>
+            <div showCollapseButton="false" style="border:0px;">
+                <!--Tabs-->
+                <div id="mainTabs" class="mini-tabs" activeIndex="0" style="width:100%;height:100%;"
+                     onactivechanged="onTabsActiveChanged" plain="false">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    mini.parse();
+
+    var tree = mini.get("leftTree");
+
+    function showTab(node) {
+        var tabs = mini.get("mainTabs");
+
+        var id = "tab$" + node.id;
+        var tab = tabs.getTab(id);
+        if (!tab) {
+            tab = {};
+            tab._nodeid = node.id;
+            tab.name = id;
+            tab.title = node.text;
+            tab.showCloseButton = true;
+            tab.url = node.url;
+
+            tabs.addTab(tab);
+        }
+        tabs.activeTab(tab);
+    }
+
+    function onNodeSelect(e) {
+        var node = e.node;
+        var isLeaf = e.isLeaf;
+
+        if (isLeaf) {
+            showTab(node);
+        }
+    }
+
+    function onClick(e) {
+        var text = this.getText();
+        alert(text);
+    }
+
+    function onQuickClick(e) {
+        tree.expandPath("datagrid");
+        tree.selectNode("datagrid");
+    }
+
+    function onTabsActiveChanged(e) {
+        var tabs = e.sender;
+        var tab = tabs.getActiveTab();
+        if (tab && tab._nodeid) {
+
+            var node = tree.getNode(tab._nodeid);
+            if (node && !tree.isSelectedNode(node)) {
+                tree.selectNode(node);
+            }
+        }
+    }
+
+
+</script>
+
+</body>
+</html>
