@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 适用于 Mini UI 的分页数据
+ *
  * @author Lijq
- * @date 2018/4/18 9:40
- * @description
  */
 @Data
 public class MiniPage implements Serializable {

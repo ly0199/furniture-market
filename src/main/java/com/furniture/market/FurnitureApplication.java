@@ -7,9 +7,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
+ * 启动类，部署以war包形式
+ *
  * @author Lijq
- * @date 2018/4/10 9:00
- * @description
+ * EnableJpaAuditing 允许在操作时自动保存操作人、时间
  */
 @SpringBootApplication
 @EnableJpaAuditing

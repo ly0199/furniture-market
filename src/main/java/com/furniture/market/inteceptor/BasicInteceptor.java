@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 基础 Interceptor
+ *
  * @author Lijq
- * @date 2018/4/16 14:24
- * @description
  */
-public class BasicInteceptor implements HandlerInterceptor{
+public class BasicInteceptor implements HandlerInterceptor {
 
 
     @Override

@@ -9,8 +9,6 @@ import java.util.Date;
 
 /**
  * @author Lijq
- * @date 2018/4/18 9:34
- * @description
  */
 public interface ICompactService {
 
@@ -18,14 +16,7 @@ public interface ICompactService {
 
     Compact save(Compact compact);
 
-    /**
-     * 根据id获取 compact
-     *
-     * @param id id
-     * @return Compact
-     */
     Compact getById(int id);
-
 
     Compact getByNo(String no);
 

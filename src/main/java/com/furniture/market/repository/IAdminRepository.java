@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @author Lijq
- * @date 2018/4/18 15:44
- * @description
  */
 @Repository
 public interface IAdminRepository extends JpaRepository<Admin, Integer> {

@@ -16,9 +16,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
+ * 合同实体类
+ *
  * @author Lijq
- * @date 2018/4/14 20:59
- * @description Compact
  */
 @Getter
 @Setter
@@ -168,16 +168,33 @@ public class Compact implements Serializable {
      * 滞纳金月数
      */
     public int getCountOfLate() {
+        // 当前日期
         Date date1 = new Date();
+
+        if (lastReceivedDate == null) {
+            return 0;
+        }
+
+        // 租金最后日期
         Date date2 = lastReceivedDate;
+
         Calendar calendar1 = Calendar.getInstance();
         calendar1.setTime(date1);
+
         Calendar calendar2 = Calendar.getInstance();
         calendar2.setTime(date2);
+
         int count = (calendar2.get(Calendar.MONTH) - calendar1.get(Calendar.MONTH)) >= 0 ?
                 (calendar2.get(Calendar.MONTH) - calendar1.get(Calendar.MONTH)) :
                 Math.abs((calendar2.get(Calendar.MONTH) - calendar1.get(Calendar.MONTH))) + 1;
         count += Math.abs((calendar2.get(Calendar.YEAR) - calendar1.get(Calendar.YEAR)) * 12);
+
+        if (count == 0) {
+            if ((calendar2.get(Calendar.MONTH) - calendar1.get(Calendar.MONTH)) == 0) {
+                count = 1;
+            }
+        }
+
         return count;
     }
 

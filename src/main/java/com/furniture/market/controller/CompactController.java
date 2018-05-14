@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 合同控制器
+ *
  * @author Lijq
- * @date 2018/4/16 18:01
- * @description
  */
 @Controller
 @RequestMapping(value = "/compact")

@@ -2,16 +2,16 @@ package com.furniture.market.repository;
 
 import com.furniture.market.entity.RentRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * @author Lijq
- * @date 2018/4/25 11:14
- * @description
  */
 @Repository
-public interface IRentRecordRepository extends JpaRepository<RentRecord, Integer> {
+public interface IRentRecordRepository extends JpaRepository<RentRecord, Integer>, JpaSpecificationExecutor<RentRecord> {
+
     List<RentRecord> findByCompactId(Integer compactId);
 }

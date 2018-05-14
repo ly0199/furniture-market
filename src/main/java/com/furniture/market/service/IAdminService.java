@@ -4,8 +4,6 @@ import com.furniture.market.entity.Admin;
 
 /**
  * @author Lijq
- * @date 2018/4/14 20:50
- * @description
  */
 public interface IAdminService {
 

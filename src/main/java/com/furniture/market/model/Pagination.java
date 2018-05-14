@@ -5,9 +5,9 @@ import lombok.Data;
 import java.util.LinkedHashMap;
 
 /**
+ * 分页
+ *
  * @author Lijq
- * @date 2018/4/23 13:40
- * @description
  */
 @Data
 public class Pagination {
@@ -16,6 +16,4 @@ public class Pagination {
     private int size = 20;
     private LinkedHashMap<String, String> sorts = new LinkedHashMap<>();
     private LinkedHashMap<String, Object> querys = new LinkedHashMap<>();
-
-
 }

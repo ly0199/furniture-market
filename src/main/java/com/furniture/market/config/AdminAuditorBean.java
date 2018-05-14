@@ -7,9 +7,9 @@ import org.springframework.data.domain.AuditorAware;
 import java.util.Optional;
 
 /**
+ * SpringJpa 审计配置
+ *
  * @author Lijq
- * @date 2018/4/25 9:33
- * @description 审计
  */
 @Configuration
 public class AdminAuditorBean implements AuditorAware<String> {

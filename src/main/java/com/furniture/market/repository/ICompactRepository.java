@@ -1,8 +1,6 @@
 package com.furniture.market.repository;
 
 import com.furniture.market.entity.Compact;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,8 +13,6 @@ import java.util.Date;
 
 /**
  * @author Lijq
- * @date 2018/4/18 16:00
- * @description
  */
 @Repository
 public interface ICompactRepository extends JpaRepository<Compact, Integer>, JpaSpecificationExecutor<Compact> {

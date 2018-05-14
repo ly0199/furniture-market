@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 权限中，当前用户信息
+ *
  * @author Lijq
- * @date 2018/4/10 11:01
- * @description
  */
 @Data
 public class Account implements Serializable {
@@ -18,5 +18,4 @@ public class Account implements Serializable {
     private String name;
     private String phone;
     private Date createTime;
-
 }

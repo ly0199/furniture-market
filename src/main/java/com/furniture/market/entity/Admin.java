@@ -7,9 +7,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * Admin 实体类
+ *
  * @author Lijq
- * @date 2018/4/14 20:59
- * @description admin
  */
 @Data
 @Entity

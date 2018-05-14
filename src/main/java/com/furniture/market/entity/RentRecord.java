@@ -15,9 +15,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
+ * 租金实体类
+ *
  * @author Lijq
- * @date 2018/4/19 15:06
- * @description
  */
 @Getter
 @Setter

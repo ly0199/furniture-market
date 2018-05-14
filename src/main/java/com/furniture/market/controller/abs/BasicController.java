@@ -7,9 +7,9 @@ import org.apache.commons.lang3.math.NumberUtils;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 基础控制器
+ *
  * @author Lijq
- * @date 2018/4/23 13:39
- * @description
  */
 public class BasicController {
 

@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * Admin 业务实现类
+ *
  * @author Lijq
- * @date 2018/4/14 21:02
- * @description
  */
 @Service
-public class AdminServiceImpl implements IAdminService{
+public class AdminServiceImpl implements IAdminService {
 
     @Autowired
     private IAdminRepository adminRepository;

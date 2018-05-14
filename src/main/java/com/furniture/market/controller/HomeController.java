@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
+ * 主控制器
+ *
  * @author Lijq
- * @date 2018/4/16 10:24
- * @description
  */
 @Slf4j
 @Controller

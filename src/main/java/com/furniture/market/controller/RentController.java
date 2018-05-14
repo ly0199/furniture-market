@@ -5,7 +5,6 @@ import com.furniture.market.controller.abs.BasicController;
 import com.furniture.market.entity.RentRecord;
 import com.furniture.market.model.MiniPage;
 import com.furniture.market.model.Pagination;
-import com.furniture.market.service.ICompactService;
 import com.furniture.market.service.IRentRecordService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 租金控制器
+ *
  * @author Lijq
- * @date 2018/4/25 13:22
- * @description
  */
 @Controller
 @RequestMapping(value = "/rent")
@@ -35,8 +34,6 @@ public class RentController extends BasicController {
 
     @Autowired
     private IRentRecordService rentRecordService;
-    @Autowired
-    private ICompactService compactService;
 
     @PostMapping(value = "/page")
     @ResponseBody

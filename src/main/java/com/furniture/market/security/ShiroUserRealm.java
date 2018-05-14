@@ -13,9 +13,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * 权限Realm 继承 {@link AuthorizingRealm}
+ *
  * @author Lijq
- * @date 2018/4/10 10:20
- * @description
  */
 public class ShiroUserRealm extends AuthorizingRealm {
 
@@ -55,10 +55,8 @@ public class ShiroUserRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 
         // TODO
-
         return authorizationInfo;
     }
-
 
 
 }

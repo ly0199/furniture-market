@@ -12,9 +12,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * Admin 控制器
+ *
  * @author Lijq
- * @date 2018/4/16 16:27
- * @description
  */
 @Controller
 @RequestMapping(value = "/admin")
@@ -35,7 +35,7 @@ public class AdminController {
 
         Account account = new Account();
 
-        if(id ==0){
+        if (id == 0) {
             id = ShiroManager.getAccount().getId();
         }
 

@@ -15,9 +15,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * 权限控制类
+ *
  * @author Lijq
- * @date 2018/4/10 10:24
- * @description
  */
 @Configuration
 public class ShiroConfiguration {
@@ -83,6 +83,7 @@ public class ShiroConfiguration {
 
     /**
      * 开启shiro aop注解支持. 使用代理方式;所以需要开启代码支持;
+     *
      * @param securityManager securityManager
      * @return
      */
@@ -95,6 +96,7 @@ public class ShiroConfiguration {
 
     /**
      * cookie对象;
+     *
      * @return
      */
     @Bean
@@ -108,6 +110,7 @@ public class ShiroConfiguration {
 
     /**
      * cookie管理对象;
+     *
      * @return
      */
     @Bean
@@ -120,6 +123,7 @@ public class ShiroConfiguration {
 
     /**
      * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
+     *
      * @return ShiroDialect
      */
     @Bean
@@ -128,10 +132,10 @@ public class ShiroConfiguration {
     }
 
     /**
-     * @see DefaultWebSessionManager
      * @return
+     * @see DefaultWebSessionManager
      */
-    @Bean(name="sessionManager")
+    @Bean(name = "sessionManager")
     public DefaultWebSessionManager defaultWebSessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         //sessionManager.setCacheManager(cacheManager());

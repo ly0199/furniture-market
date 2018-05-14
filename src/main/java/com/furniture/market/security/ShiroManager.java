@@ -5,11 +5,9 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 /**
- * My shiro api
+ * 自己构造的权限管理器，方便获取相关信息
  *
  * @author Lijq
- * @date 2018/4/16 10:26
- * @description
  */
 public class ShiroManager {
 
