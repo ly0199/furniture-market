@@ -63,7 +63,7 @@
     <!-- 头部 -->
     <div title="north" region="north" class="app-header" bodyStyle="overflow:hidden;" height="70" showHeader="false"
          showSplit="false">
-        <div class="logo">合同租金收支管理</div>
+        <div class="logo" title="合同租金收支管理">----</div>
 
         <div class="topNav">
             <a class="mini-button mini-button-iconTop" iconCls="icon-user" plain="true">
@@ -85,18 +85,52 @@
         <!--Splitter-->
         <div class="mini-splitter" style="width:100%;height:100%;" borderStyle="border:0;">
             <div size="180" maxSize="250" minSize="100" showCollapseButton="true" style="border-width:1px;">
-
                 <!--Tree-->
                 <div id="leftTree" class="mini-outlooktree" url="/resources/left-tree.txt" onnodeclick="onNodeSelect"
                      textField="text" idField="id" parentField="pid">
                 </div>
-
-
             </div>
             <div showCollapseButton="false" style="border:0px;">
+
                 <!--Tabs-->
                 <div id="mainTabs" class="mini-tabs" activeIndex="0" style="width:100%;height:100%;"
                      onactivechanged="onTabsActiveChanged" plain="false">
+                    <div class="mini-fit" title="计算公式">
+                        <table>
+                            <tr>
+                                <td>每月租金 = 面积 x 租金 x 折扣</td>
+                                <td>（租金为每平米每月租金）</td>
+                            </tr>
+                            <tr>
+                                <td>每月管理费 = 面积 x 管理费 x 折扣</td>
+                                <td>（管理费为每平米每月管理费）</td>
+                            </tr>
+                            <tr>
+                                <td>每月空调费 = 面积 x 空调费</td>
+                                <td>（空调费为每平米每月空调费）</td>
+                            </tr>
+                            <tr>
+                                <td>月合计 = 每月租金 + 每月管理费 + 每月空调费</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>合同期总合计 = 月合计 x 交费方式</td>
+                                <td>（交费方式分为月付、半年付、年付、18月付）</td>
+                            </tr>
+                            <tr>
+                                <td>应收合计 = 合同期总合计 - 减免优惠</td>
+                                <td>（减免优惠为手输）</td>
+                            </tr>
+                            <tr>
+                                <td>合同保证金 =（每月租金 + 每月管理费）x 3</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>滞纳金 =（每月租金+每月管理费）x 0.3% x 天数</td>
+                                <td>（天数为当前日期-上次交费到期日期）</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

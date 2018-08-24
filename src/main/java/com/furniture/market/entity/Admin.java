@@ -1,6 +1,7 @@
 package com.furniture.market.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +12,8 @@ import java.util.Date;
  *
  * @author Lijq
  */
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "t_admin")
 public class Admin implements Serializable {
@@ -36,6 +38,6 @@ public class Admin implements Serializable {
     @Column(name = "create_time", length = 50, nullable = false)
     private Date createTime;
 
-    @Column(name = "enabled", length = 1, nullable = false, columnDefinition = "1")
-    private Boolean enabled = true;
+    @Column(name = "enabled", columnDefinition = "char default 1")
+    private Boolean enabled;
 }

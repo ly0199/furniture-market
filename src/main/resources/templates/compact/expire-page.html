@@ -24,47 +24,64 @@
          sizeList="[20,50,100]" pageSize="20" autoLoad="true">
         <div property="columns">
             <div type="indexcolumn"></div>
-            <div field="no" width="120" headerAlign="center">合同号</div>
-            <div field="merchant" width="120" headerAlign="center">商家名称</div>
-            <div field="name" width="100" headerAlign="center">承租人</div>
-            <div field="booth" width="100" headerAlign="center">摊铺号</div>
-            <div field="area" width="100" headerAlign="center">面积</div>
+            <div field="no" width="120" headerAlign="center" align="right">合同号</div>
+            <div field="merchant" width="120" headerAlign="center" align="right">商家名称</div>
+            <div field="name" width="100" headerAlign="center" align="right">承租人</div>
+            <div field="booth" width="100" headerAlign="center" align="right">摊铺号</div>
+            <div field="area" width="100" headerAlign="center" align="right">面积</div>
 
-            <div header="滞纳金" headerAlign="center">
+            <div header="滞纳金" headerAlign="center" align="right">
                 <div property="columns">
-                    <div field="lastReceivedDateStr" width="100" headerAlign="center">租金截止</div>
-                    <div field="countOfLate" width="100" headerAlign="center">滞纳金月数</div>
-                    <div field="late" width="100" headerAlign="center" dataType="currency" cellStyle="color: red;">
+                    <div field="lastReceivedDateStr" width="100" headerAlign="center" align="right">租金截止</div>
+                    <div field="countOfLate" width="100" headerAlign="center" align="right">滞纳金天数</div>
+                    <div field="late" width="100" headerAlign="center" align="right" dataType="currency"
+                         cellStyle="color: red;">
                         滞纳金
                     </div>
                 </div>
             </div>
 
-            <div header="租金信息" headerAlign="center">
+            <div header="租金信息" headerAlign="center" align="right">
                 <div property="columns">
-                    <div field="rentOfArea" width="100" headerAlign="center" dataType="currency">租金(平米/月)</div>
-                    <div field="rentOfManage" width="100" headerAlign="center" dataType="currency">管理费(平米/月)</div>
-                    <div field="rentOfCharges" width="180" headerAlign="center" dataType="currency">空调/质检/垃圾处理费(平米/月)
+                    <div field="rentOfAreaMonth" width="100" headerAlign="center" align="right" dataType="currency">
+                        每月租金
+                    </div>
+                    <div field="rentOfManageMonth" width="100" headerAlign="center" align="right" dataType="currency">
+                        每月管理费
+                    </div>
+                    <div field="rentOfChargesMonth" width="100" headerAlign="center" align="right" dataType="currency">
+                        每月空调三项
                     </div>
                 </div>
             </div>
-            <div field="getway" width="100" headerAlign="center">缴费方式</div>
-            <div field="discount" width="100" headerAlign="center" numberFormat="#,0">折扣</div>
-            <div field="startDate" width="100" headerAlign="center" dateFormat="yyyy-MM-dd">合同开始时间</div>
-            <div field="endDate" width="100" headerAlign="center" dateFormat="yyyy-MM-dd">合同结束时间</div>
+            <div field="getway" width="100" headerAlign="center" align="right">缴费方式</div>
+            <div field="discount" width="100" headerAlign="center" align="right" numberFormat="#,0.00">折扣</div>
+            <div field="startDate" width="100" headerAlign="center" align="right" dateFormat="yyyy-MM-dd">合同开始时间</div>
+            <div field="endDate" width="100" headerAlign="center" align="right" dateFormat="yyyy-MM-dd">合同结束时间</div>
 
-            <div header="收款信息" headerAlign="center">
+            <div header="收款信息" headerAlign="center" align="right">
                 <div property="columns">
-                    <div field="rentOfMonthTotal" width="100" headerAlign="center" dataType="currency">月合计</div>
-                    <div field="rentOfCompact" width="100" headerAlign="center" dataType="currency">合同期合计</div>
-                    <div field="rentOfDiscounts" width="180" headerAlign="center" dataType="currency">减免优惠</div>
-                    <div field="rentOfReceivable" width="180" headerAlign="center" dataType="currency">应收合计</div>
-                    <div field="rentOfReceived" width="180" headerAlign="center" dataType="currency">已收款</div>
-                    <div field="rentOfDebt" width="180" headerAlign="center" dataType="currency">欠收合计</div>
+                    <div field="rentOfMonthTotal" width="100" headerAlign="center" align="right" dataType="currency">
+                        月合计
+                    </div>
+                    <div field="rentOfCompact" width="100" headerAlign="center" align="right" dataType="currency">
+                        合同期合计
+                    </div>
+                    <div field="rentOfDiscounts" width="180" headerAlign="center" align="right" dataType="currency">
+                        减免优惠
+                    </div>
+                    <div field="rentOfReceivable" width="180" headerAlign="center" align="right" dataType="currency">
+                        应收合计
+                    </div>
+                    <div field="rentOfReceived" width="180" headerAlign="center" align="right" dataType="currency">已收款
+                    </div>
+                    <div field="rentOfDebt" width="180" headerAlign="center" align="right" dataType="currency">欠收合计
+                    </div>
                 </div>
             </div>
-            <div field="rentOfPledge" width="100" headerAlign="center" renderer="EP.renderPledge" dataType="currency">
-                押金
+            <div field="rentOfPledge" width="100" headerAlign="center" align="right" renderer="EP.renderPledge"
+                 dataType="currency">
+                合同保证金
             </div>
         </div>
     </div>

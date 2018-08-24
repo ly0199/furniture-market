@@ -10,21 +10,20 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 租金实体类
+ * 空调、质检、垃圾
  *
  * @author Lijq
  */
-@Getter
 @Setter
+@Getter
 @Entity
-@Table(name = "t_rent_record")
+@Table(name = "t_charges_record")
 @EntityListeners(AuditingEntityListener.class)
-public class RentRecord implements Serializable {
+public class ChargesRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +35,16 @@ public class RentRecord implements Serializable {
     private Compact compact;
 
     /**
-     * 租金
+     * 计费开始时间
      */
-    @Column
-    private BigDecimal rent;
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    /**
+     * 计费结束时间
+     */
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
 
     /**
      * 月数
@@ -48,25 +53,16 @@ public class RentRecord implements Serializable {
     private int month;
 
     /**
-     * 租金开始日期
+     * 空调、质检、垃圾处理费用
      */
-    @Temporal(TemporalType.DATE)
-    private Date startDate;
+    @Column
+    private BigDecimal rent;
 
-    /**
-     * 租金结束日期
-     */
-    @Temporal(TemporalType.DATE)
-    private Date endDate;
-
-    /**
-     * 备注
-     */
     @Column
     private String remark;
 
     /**
-     * 操作相关
+     * 操作相关，自动生成
      */
     @CreatedDate
     private Date createTime;

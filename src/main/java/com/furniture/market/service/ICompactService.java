@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public interface ICompactService {
 
-    MiniPage page(Pagination pagination);
+    MiniPage page(Pagination pagination, String keywords);
 
     Compact save(Compact compact);
 
@@ -20,11 +20,11 @@ public interface ICompactService {
 
     Compact getByNo(String no);
 
-    MiniPage search(Pagination pagination, String keywords);
-
     void updateRentOfReceived(Integer id, BigDecimal add, Date lastReceivedDate);
 
     void updateReturnPledge(Integer compactId);
 
     MiniPage expirePage(Pagination pagination);
+
+    void updateRentOfAriReceived(Integer id, BigDecimal rentOfAirReceived);
 }

@@ -6,6 +6,7 @@ import com.furniture.market.model.Pagination;
 import com.furniture.market.repository.ICompactRepository;
 import com.furniture.market.service.ICompactService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,9 +31,21 @@ public class CompactServiceImpl implements ICompactService {
     private ICompactRepository compactRepository;
 
     @Override
-    public MiniPage page(Pagination pagination) {
+    public MiniPage page(Pagination pagination, String keywords) {
+
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
-        Page<Compact> page = compactRepository.findAll(PageRequest.of(pagination.getPage(), pagination.getSize(), sort));
+
+        Compact compact = new Compact();
+        if (StringUtils.isNotBlank(keywords)) {
+            // 合同号/商家名称/承租人/摊铺号
+            compact.setNo(keywords);
+            compact.setMerchant(keywords);
+            compact.setName(keywords);
+            compact.setBooth(keywords);
+        }
+        Page<Compact> page = compactRepository.findAll(Example.of(compact,
+                ExampleMatcher.matchingAny().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)),
+                PageRequest.of(pagination.getPage(), pagination.getSize(), sort));
         MiniPage mini = new MiniPage();
         mini.setData(page.getContent());
         mini.setTotal(page.getTotalElements());
@@ -52,33 +65,6 @@ public class CompactServiceImpl implements ICompactService {
     @Override
     public Compact getByNo(String no) {
         return compactRepository.getByNo(no);
-    }
-
-
-    @Override
-    public MiniPage search(Pagination pagination, String keywords) {
-        Sort sort = new Sort(Sort.Direction.DESC, "createTime");
-
-        // 合同号/商家名称/承租人/摊铺号
-        Compact compact = new Compact();
-        compact.setNo(keywords);
-        compact.setMerchant(keywords);
-        compact.setName(keywords);
-        compact.setBooth(keywords);
-
-
-        Page<Compact> page = compactRepository.findAll(Example.of(compact,
-                ExampleMatcher.matchingAny().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)),
-                PageRequest.of(pagination.getPage(), pagination.getSize(), sort));
-        MiniPage mini = new MiniPage();
-        mini.setData(page.getContent());
-        mini.setTotal(page.getTotalElements());
-        return mini;
-    }
-
-    @Override
-    public void updateRentOfReceived(Integer id, BigDecimal rentOfReceived, Date lastReceivedDate) {
-        compactRepository.updateRentOfReceived(id, rentOfReceived, lastReceivedDate);
     }
 
     @Override
@@ -112,6 +98,9 @@ public class CompactServiceImpl implements ICompactService {
                 Path lastReceivedDatePath = root.<Date>get("lastReceivedDate");
                 Path endDatePath = root.<Date>get("endDate");
 
+                Path rentOfReceivable = root.<BigDecimal>get("rentOfReceivable");
+                Path rentOfReceived = root.<BigDecimal>get("rentOfReceived");
+
 
                 // 获取节点时间点
                 Calendar calendar = Calendar.getInstance();
@@ -123,9 +112,10 @@ public class CompactServiceImpl implements ICompactService {
                 calendar.set(Calendar.SECOND, 0);
 
                 Predicate predicate = cb.and(
-                        cb.equal(root.get("getway"), 1),
+                        /*cb.equal(root.get("getway"), 1),*/
                         cb.greaterThan(endDatePath, new Date()),
-                        cb.lessThan(lastReceivedDatePath, calendar.getTime())
+                        cb.lessThan(lastReceivedDatePath, calendar.getTime()),
+                        cb.lessThan(rentOfReceived, rentOfReceivable)
                 );
 
                 return predicate;
@@ -138,6 +128,19 @@ public class CompactServiceImpl implements ICompactService {
         mini.setData(page.getContent());
         mini.setTotal(page.getTotalElements());
         return mini;
+    }
+
+
+    @Override
+    public void updateRentOfReceived(Integer id, BigDecimal rentOfReceived, Date lastReceivedDate) {
+        Compact compact = compactRepository.getById(id);
+        compactRepository.updateRentOfReceived(id, compact.getRentOfReceived().add(rentOfReceived), lastReceivedDate);
+    }
+
+    @Override
+    public void updateRentOfAriReceived(Integer id, BigDecimal rentOfAirReceived) {
+        Compact compact = compactRepository.getById(id);
+        compactRepository.updateRentOfAirReceived(id, compact.getRentOfReceived().add(rentOfAirReceived));
     }
 
 }

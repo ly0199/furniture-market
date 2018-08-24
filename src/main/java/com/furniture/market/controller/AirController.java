@@ -2,10 +2,10 @@ package com.furniture.market.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.furniture.market.controller.abs.BasicController;
-import com.furniture.market.entity.RentRecord;
+import com.furniture.market.entity.ChargesRecord;
 import com.furniture.market.model.MiniPage;
 import com.furniture.market.model.Pagination;
-import com.furniture.market.service.IRentRecordService;
+import com.furniture.market.service.IChargesRecordService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,11 +29,11 @@ import java.util.Map;
  * @author Lijq
  */
 @Controller
-@RequestMapping(value = "/rent")
-public class RentController extends BasicController {
+@RequestMapping(value = "/air")
+public class AirController extends BasicController {
 
     @Autowired
-    private IRentRecordService rentRecordService;
+    private IChargesRecordService chargesRecordService;
 
     @PostMapping(value = "/page")
     @ResponseBody
@@ -43,13 +43,13 @@ public class RentController extends BasicController {
         if (StringUtils.isBlank(compactId)) {
             return new MiniPage();
         } else {
-            return rentRecordService.page(pagination, compactId);
+            return chargesRecordService.page(pagination, compactId);
         }
     }
 
     @GetMapping(value = "/add")
     public String add(ModelMap model, HttpServletRequest request) {
-        return "compact/add-rent";
+        return "compact/add-air";
     }
 
     @PostMapping(value = "save")
@@ -64,18 +64,17 @@ public class RentController extends BasicController {
         String remark = vo.getString("remark");
         int month = vo.getIntValue("getway");
 
+        ChargesRecord chargesRecord = new ChargesRecord();
+        chargesRecord.setStartDate(startDate);
+        chargesRecord.setEndDate(endDate);
+        chargesRecord.setRent(rent);
+        chargesRecord.setMonth(month);
+        chargesRecord.setRemark(remark);
+
+        chargesRecord = chargesRecordService.save(chargesRecord, compactId);
+
         Map<String, Object> map = new HashMap<>();
-
-        RentRecord rentRecord = new RentRecord();
-        rentRecord.setStartDate(startDate);
-        rentRecord.setEndDate(endDate);
-        rentRecord.setRent(rent);
-        rentRecord.setRemark(remark);
-        rentRecord.setMonth(month);
-
-        rentRecord = rentRecordService.save(rentRecord, compactId);
-
-        if (rentRecord.getId() != null) {
+        if (chargesRecord.getId() != null) {
             map.put("successed", true);
             return ResponseEntity.ok(map);
         } else {

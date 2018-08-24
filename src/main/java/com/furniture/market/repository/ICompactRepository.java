@@ -27,8 +27,13 @@ public interface ICompactRepository extends JpaRepository<Compact, Integer>, Jpa
                               @Param("lastReceivedDate") Date lastReceivedDate);
 
     @Modifying
+    @Query(value = "UPDATE Compact  SET rentOfReceived= :rentOfReceived WHERE id= :id")
+    void updateRentOfAirReceived(@Param("id") Integer id, @Param("rentOfReceived") BigDecimal rentOfReceived);
+
+    @Modifying
     @Query(value = "UPDATE Compact  SET isReturnPledge= :isReturnPledge, returnPledgeTime= :returnPledgeTime WHERE id= :id")
     void updateReturnPledge(@Param("id") Integer id, @Param("isReturnPledge") boolean isReturnPledge,
                             @Param("returnPledgeTime") Date returnPledgeTime);
+
 
 }

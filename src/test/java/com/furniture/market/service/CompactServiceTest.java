@@ -35,7 +35,7 @@ public class CompactServiceTest {
         Pagination pagination = new Pagination();
         pagination.setPage(0);
         pagination.setSize(20);
-        MiniPage page = compactService.page(pagination);
+        MiniPage page = compactService.page(pagination, "");
         page.getData().forEach(System.out::println);
     }
 
@@ -83,11 +83,7 @@ public class CompactServiceTest {
 
         compact.setEnabled(true);
 
-        System.out.println(compact);
-
         compactService.save(compact);
-
-
     }
 
 

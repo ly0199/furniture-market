@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 >
-<head th:include="/include/common-head :: commonHeader('新增收租')"></head>
+<head th:include="/include/common-head :: commonHeader('新增空调费')"></head>
 <head>
     <style type="text/css">
         html, body {
@@ -78,34 +78,18 @@
                             <input name="discount" class="mini-spinner" required="true" value="1" minValue="0"
                                    maxValue="1" format="#,0.00"/>
                         </td>
-                        <td>租金(㎡/月)：</td>
+                        <td>杂费(空/质/垃 ㎡/月)：</td>
                         <td>
-                            <input name="rentOfArea" class="mini-spinner" value="10" minValue="1" maxValue="2000"
-                                   required="true" format="#,0.00" onvaluechanged="CA.buildMoney"/>
-                        </td>
-                        <td>管理费(㎡/月)：</td>
-                        <td>
-                            <input name="rentOfManage" class="mini-spinner" value="20" minValue="0" maxValue="2000"
-                                   required="true" format="#,0.00" onvaluechanged="CA.buildMoney"/>
+                            <input name="rentOfCharges" class="mini-spinner" value="5.8" minValue="0" maxValue="2000"
+                                   required="true" format="#,0.00"/>
                         </td>
                     </tr>
                     <tr>
-                        <td>月租金合计：</td>
+                        <td>月杂费合计：</td>
                         <td>
-                            <input name="rentOfAreaMonth" class="mini-spinner" value="0.00" minValue="0.00"
+                            <input name="rentOfMonth" class="mini-spinner" value="0.00" minValue="0.00"
                                    maxValue="99999999" format="#,0.00"/>
                         </td>
-                        <td>月管理合计：</td>
-                        <td>
-                            <input name="rentOfManageMonth" class="mini-spinner" value="0" minValue="0.00"
-                                   maxValue="99999999" format="#,0.00"/>
-                        </td>
-                        <td>月应收合计：</td>
-                        <td>
-                            <input name="rentOfMonth" class="mini-spinner" value="0" minValue="0.00"
-                                   maxValue="99999999" format="#,0.00"/>
-                        </td>
-
                     </tr>
                 </table>
             </div>
@@ -113,7 +97,7 @@
     </fieldset>
     <fieldset style="border:solid 1px #aaa;padding:3px;">
         <legend>收租信息</legend>
-        <form id="rent-add-form" method="post">
+        <form id="air-add-form" method="post">
             <input name="compactId" class="mini-hidden"/>
             <div style="padding-left:11px;padding-bottom:5px;">
                 <table style="table-layout:fixed;">
@@ -133,7 +117,7 @@
                         <td>支付月数：</td>
                         <td style="width:150px;">
                             <input name="getway" class="mini-spinner" required="true" value="1" minValue="1"
-                                   maxValue="99999999" format="0个月" onvaluechanged="RA.onGetwayChanged"/>
+                                   maxValue="99999999" format="0个月" onvaluechanged="AA.onGetwayChanged"/>
                         </td>
                         <td>缴租金：</td>
                         <td>
@@ -144,7 +128,7 @@
                 </table>
             </div>
             <div style="text-align:center;padding:10px;" region="center">
-                <a class="mini-button" onclick="RA.save()" style="width:60px;margin-right:20px;">确定</a>
+                <a class="mini-button" onclick="AA.save()" style="width:60px;margin-right:20px;">确定</a>
                 <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
             </div>
         </form>
@@ -152,17 +136,17 @@
 </div>
 <script type="text/javascript">
 
-    var RA = RA || {};
+    var AA = AA || {};
 
     mini.parse();
     // init 初始化赋值开始时间
     mini.getbyName("startDate").setValue(new Date());
 
-    RA = {
+    AA = {
         // 保存
         save: function () {
 
-            var form = new mini.Form("rent-add-form");
+            var form = new mini.Form("air-add-form");
             var data = form.getData();
             console.log(data);
 
@@ -175,7 +159,7 @@
                         var json = mini.encode(data);
                         console.log(json);
                         $.ajax({
-                            url: "/rent/save",
+                            url: "/air/save",
                             type: 'post',
                             data: {vo: json},
                             cache: false,
@@ -201,10 +185,10 @@
                 var form = new mini.Form("compact-info-form");
                 var o = mini.decode(compact);
                 form.setData(o);
-                RA.labelModel(form);
+                AA.labelModel(form);
 
                 var rentInfo = mini.decode(data);
-                var rentForm = new mini.Form("rent-add-form");
+                var rentForm = new mini.Form("air-add-form");
                 rentForm.setData(rentInfo);
             }
         },

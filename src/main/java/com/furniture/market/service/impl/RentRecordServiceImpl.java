@@ -79,11 +79,6 @@ public class RentRecordServiceImpl implements IRentRecordService {
 
         // 修改已收款
         BigDecimal rentOfReceived = rentRecord.getRent();
-        List<RentRecord> list = rentRecordRepository.findByCompactId(compactId);
-        for (RentRecord r : list) {
-            rentOfReceived = rentOfReceived.add(r.getRent());
-        }
-
         compactService.updateRentOfReceived(compact.getId(), rentOfReceived, rentRecord.getEndDate());
 
         rentRecord.setCompact(compact);

@@ -6,7 +6,7 @@ import com.furniture.market.entity.Compact;
 import com.furniture.market.model.MiniPage;
 import com.furniture.market.model.Pagination;
 import com.furniture.market.service.ICompactService;
-import com.furniture.market.service.IRentRecordService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,12 +31,11 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "/compact")
+@Slf4j
 public class CompactController extends BasicController {
 
     @Autowired
     private ICompactService compactService;
-    @Autowired
-    private IRentRecordService rentRecordService;
 
     @GetMapping("/page")
     public String page(ModelMap model) {
@@ -48,11 +47,7 @@ public class CompactController extends BasicController {
     public MiniPage page(ModelMap model, HttpServletRequest request) {
         Pagination pagination = getPagination(request);
         String keywords = request.getParameter("key");
-        if (StringUtils.isBlank(keywords)) {
-            return compactService.page(pagination);
-        } else {
-            return compactService.search(pagination, keywords);
-        }
+        return compactService.page(pagination, keywords);
     }
 
     @GetMapping(value = "/add")
@@ -60,11 +55,15 @@ public class CompactController extends BasicController {
         return "compact/add";
     }
 
-    @GetMapping(value = "/edit")
-    public String edit(ModelMap model) {
-        return "compact/edit";
+    @GetMapping(value = "/rent")
+    public String rent(ModelMap model) {
+        return "compact/rent";
     }
 
+    @GetMapping(value = "/air")
+    public String air(ModelMap model) {
+        return "compact/air";
+    }
 
     @ResponseBody
     @GetMapping(value = "/info")
@@ -89,12 +88,19 @@ public class CompactController extends BasicController {
     }
 
 
+    /**
+     * 保存合同
+     *
+     * @param model   ModelMap
+     * @param request HttpServletRequest
+     * @return Result
+     */
     @PostMapping(value = "save")
     public ResponseEntity save(ModelMap model, HttpServletRequest request) {
 
         JSONObject vo = JSONObject.parseObject(request.getParameter("vo"));
 
-        vo.keySet().forEach(System.out::println);
+        vo.keySet().forEach(log::info);
 
         String no = vo.getString("no");
         String merchant = vo.getString("merchant");
@@ -124,7 +130,6 @@ public class CompactController extends BasicController {
         BigDecimal rentOfChargesMonth = vo.getBigDecimal("rentOfChargesMonth");
 
         BigDecimal rentOfDiscounts = vo.getBigDecimal("rentOfDiscounts");
-
 
         Compact compact = new Compact();
 
@@ -158,14 +163,12 @@ public class CompactController extends BasicController {
         compact.setRentOfDiscounts(rentOfDiscounts);
         compact.setRentOfReceivable(rentOfReceivable);
 
-
-        // 押金
+        // 合同保证金
         String remark = vo.getString("remark");
         BigDecimal rentOfPledge = vo.getBigDecimal("rentOfPledge");
 
         compact.setRentOfPledge(rentOfPledge);
         compact.setRemark(remark);
-
 
         // 初次创建时已收到为0
         compact.setRentOfReceived(BigDecimal.ZERO);
@@ -202,24 +205,16 @@ public class CompactController extends BasicController {
     }
 
 
-    /**
-     * 即将到期
-     *
-     * @param modelMap
-     * @return
-     */
+    //-------- 滞纳金相关 ----------------------------------------------------------------//
+
     @GetMapping(value = "/expire/page")
-    public String expirePage(ModelMap modelMap) {
+    public String expirePage(ModelMap model) {
         return "compact/expire-page";
     }
-
 
     @PostMapping(value = "/expire/page")
     @ResponseBody
     public MiniPage expireMiniPage(ModelMap model, HttpServletRequest request) {
-        Pagination pagination = getPagination(request);
-        return compactService.expirePage(pagination);
+        return compactService.expirePage(getPagination(request));
     }
-
-
 }
